@@ -1,0 +1,98 @@
+{
+  "id": 3,
+  "title": "Кружевной бюстгалтер без косточек",
+  "slug": "kruzhevnoy-byustgalter-bez-kostochek",
+  "price": 3690,
+  "colors": [
+    {
+      "id": 45,
+      "color": {
+        "id": 21,
+        "title": "Blue",
+        "code": "#180ae6"
+      },
+      "gallery": [
+        {
+          "file": {
+            "url": "https://vue-moire.skillbox.cc/uploads/file/c/d/b/cdbd75ce872ca9ef1860378415f90dda.png",
+            "name": "cdbd75ce872ca9ef1860378415f90dda.png",
+            "originalName": "Rectangle 1211111.png",
+            "extension": "png",
+            "size": "110.3 Кб"
+          }
+        }
+      ]
+    },
+    {
+      "id": 76,
+      "color": {
+        "id": 20,
+        "title": "Red",
+        "code": "#dd0808"
+      },
+      "gallery": [
+        {
+          "file": {
+            "url": "https://vue-moire.skillbox.cc/uploads/file/0/6/4/064e02cba644eca0cdc2e844e31315cf.png",
+            "name": "064e02cba644eca0cdc2e844e31315cf.png",
+            "originalName": "Rectangle 1211111.png",
+            "extension": "png",
+            "size": "113.7 Кб"
+          }
+        }
+      ]
+    }
+  ],
+  "seasons": [
+    {
+      "id": 3,
+      "title": "Лето",
+      "code": "summer",
+      "productsCount": 10
+    },
+    {
+      "id": 4,
+      "title": "Весна",
+      "code": "spring",
+      "productsCount": 10
+    }
+  ],
+  "materials": [
+    {
+      "id": 3,
+      "title": "Полиэстер",
+      "code": "PES",
+      "productsCount": 7
+    },
+    {
+      "id": 4,
+      "title": "Полиамид",
+      "code": "PA",
+      "productsCount": 4
+    }
+  ],
+  "sizes": [
+    {
+      "id": 8,
+      "title": "1B"
+    },
+    {
+      "id": 9,
+      "title": "2B"
+    },
+    {
+      "id": 10,
+      "title": "3B"
+    },
+    {
+      "id": 11,
+      "title": "4B"
+    }
+  ],
+  "category": {
+    "id": 1,
+    "title": "Бюстгальтеры",
+    "slug": "brassiere"
+  },
+  "content": ""
+}
