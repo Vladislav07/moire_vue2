@@ -1,3 +1,3 @@
 module.exports = {
-  publicPath: '/appstore/',
+  publicPath: '/',
 };

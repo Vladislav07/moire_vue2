@@ -59,15 +59,14 @@ export default {
   },
   computed: {
     products() {
-      return this.productsData;
-      // ? this.productsData.items.map((p) => {
-      //   return {
-      //     ...p,
-      //  image: p.image.file.url,
-      //  colors: p.colors.map((i) => i.id),
-      //  };
-      //  })
-      // : [];
+      return this.productsData ? this.productsData.items.map((p) => {
+        return {
+          ...p,
+          image: p.colors[0].gallery[0].file.url,
+          colors: p.colors.map((i) => i.color.id),
+        };
+      })
+        : [];
     },
     countProducts() {
       return this.productsData ? this.productsData.pagination.total : 0;
@@ -113,7 +112,6 @@ export default {
             },
           })
           .then((response) => {
-            console.log(response);
             this.productsData = response.data;
           })
           .catch(() => (this.LoadingFailed = true))

@@ -1,7 +1,7 @@
 <template>
   <li class="catalog__item" :product="product">
     <router-link class="catalog__pic" :to="{ name: 'product', params: { id: product.id } }">
-      <img :src="product.colors[0].gallery[0].file.url" :alt="product.title" />
+      <img :src="product.image" :alt="product.title" />
     </router-link>
 
     <h3 class="catalog__title">
@@ -36,7 +36,7 @@ export default {
   computed: {
     colors() {
       const result = [];
-      this.product.colors.map((item) => (result.push(item.color)));
+      this.product.colors.map((item) => (result.push(item)));
       return result;
     },
   },

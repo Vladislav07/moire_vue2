@@ -1,9 +1,9 @@
 <template>
   <ul class="colors colors--black">
-    <li class="colors__item" v-for="colorId in colorsItem" :key="colorId.id">
+    <li class="colors__item" v-for="colorId in colorsItem" :key="colorId">
       <label class="colors__label">
         <input class="colors__radio sr-only" type="radio" :value="colorId" />
-        <span class="colors__value" :style="{ 'background-color': color(colorId.id) }"> </span>
+        <span class="colors__value" :style="{ 'background-color': color(colorId) }"> </span>
       </label>
     </li>
   </ul>
@@ -23,6 +23,7 @@ export default {
   },
   computed: {
     colors() {
+      console.log(this.colorsData);
       return this.colorsData ? this.colorsData : [];
     },
   },

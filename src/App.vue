@@ -123,6 +123,11 @@ export default {
   components: {
     'cart-indicator': cartIndicator,
   },
+  // mounted() {
+  //   if (window.location.hash) {
+  //     window.location.replace(window.location.hash.replace('#', ''));
+  //   }
+  // },
   created() {
     const userAccessKey = localStorage.getItem('userAccessKey');
     if (userAccessKey) {

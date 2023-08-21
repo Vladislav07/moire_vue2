@@ -70,7 +70,7 @@
                   <label class="form__label form__label--small form__label--select">
                     <select class="form__select" type="text" name="category">
                       <option value="0">Все категории</option>
-                      <option :value="categoria.id" v-for="size in producs.sizes" :key="size.id">
+                      <option :value="size.id" v-for="size in product.sizes" :key="size.id">
                         {{ size.title }}
                       </option>
                     </select>
@@ -88,6 +88,18 @@
             </form>
           </div>
         </div>
+        <div class="item__desc">
+          <ul class="tabs">
+            <li class="tabs__item">
+              <a class="tabs__link" href="#"> Информация о товаре </a>
+            </li>
+            <li class="tabs__item">
+              <a class="tabs__link tabs__link--current"> Доставка и возврат </a>
+            </li>
+          </ul>
+          <product-delivery/>
+          <product-content />
+        </div>
       </section>
     </main>
   </div>
@@ -101,6 +113,8 @@ import choiseOfQuantity from '@/components/choiceOfQuantity.vue';
 import API_BASE_URL from '@/config';
 import { mapActions } from 'vuex';
 import RadioButton from '../components/baseRadioButton.vue';
+import ProductContent from '../components/ProductContent.vue';
+import ProductDelivery from '../components/ProductDelivery.vue';
 
 export default {
   data() {
@@ -120,7 +134,7 @@ export default {
         title: this.productData.title,
         image: this.productData.colors.map((item) => item.gallery[0].file.url),
         price: this.productData.price,
-        colors: this.productData.colors.map((p) => p.color),
+        colors: this.productData.colors.map((p) => p.color.id),
         sizes: this.productData.sizes,
       };
     },
@@ -142,9 +156,13 @@ export default {
     LoadProduct() {
       this.productLoading = true;
       this.LoadingFailed = false;
+      console.log(this.$route.params.id);
       axios
         .get(`${API_BASE_URL}/api/products/${this.$route.params.id}`)
-        .then((response) => (this.productData = response.data))
+        .then((response) => {
+          console.log(response);
+          this.productData = response.data;
+        })
         .catch(() => (this.LoadingFailed = true))
         .then(() => (this.productLoading = false));
     },
@@ -153,6 +171,8 @@ export default {
   components: {
     choiseOfQuantity,
     RadioButton,
+    ProductContent,
+    ProductDelivery,
   },
   watch: {
     '$route.params.id': {
