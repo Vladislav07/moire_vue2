@@ -63,7 +63,10 @@
               <div class="item__row">
                 <fieldset class="form__block">
                   <legend class="form__legend">Цвет:</legend>
-                  <radio-button :colorsItem="product.colors" />
+                  <radio-button
+                    :colorsItem="product.colors"
+                    :currentColors.sync="product.colors[0]"
+                  />
                 </fieldset>
                 <fieldset class="form__block">
                   <legend class="form__legend">Размер</legend>
@@ -78,7 +81,11 @@
                 </fieldset>
               </div>
               <div class="item__row">
-                <button class="button button--primery" type="submit" :disabled="productAddSending">
+                <button
+                  class="item__button button button--primery"
+                  type="submit"
+                  :disabled="productAddSending"
+                >
                   В корзину
                 </button>
               </div>
@@ -91,14 +98,27 @@
         <div class="item__desc">
           <ul class="tabs">
             <li class="tabs__item">
-              <a class="tabs__link" href="#"> Информация о товаре </a>
+              <a
+                id="1"
+                href="#"
+                class="tabs__link"
+                v-bind:class="{ 'tabs__link--current': links['1'] }"
+                @click.stop="tabSwitch"
+                >Информация о товаре</a
+              >
             </li>
             <li class="tabs__item">
-              <a class="tabs__link tabs__link--current"> Доставка и возврат </a>
+              <a
+                id="2"
+                href="#"
+                class="tabs__link"
+                v-bind:class="{ 'tabs__link--current': links['2'] }"
+                @click.stop="tabSwitch"
+                >Доставка и возврат</a
+              >
             </li>
           </ul>
-          <product-delivery/>
-          <product-content />
+          <component :is="currentView"></component>
         </div>
       </section>
     </main>
@@ -124,7 +144,11 @@ export default {
       productLoading: false,
       LoadingFailed: false,
       productAdded: false,
+      colorId: null,
+      sizeId: null,
       productAddSending: false,
+      currentView: ProductContent,
+      links: { 1: true },
     };
   },
   computed: {
@@ -165,6 +189,17 @@ export default {
         })
         .catch(() => (this.LoadingFailed = true))
         .then(() => (this.productLoading = false));
+    },
+    tabSwitch(e) {
+      e.preventDefault();
+      const n = e.target.id;
+      if (n === '2') {
+        this.currentView = ProductDelivery;
+      } else {
+        this.currentView = ProductContent;
+      }
+      this.links = {};
+      this.links[n] = true;
     },
   },
   filters: { numberFormat },
