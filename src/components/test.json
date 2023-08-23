@@ -1,50 +1,113 @@
-   {
-    "id": 1,
-    "title": "Носки",
-    "slug": "noski",
-    "price": 199,
-    "colors": [
+  {
+    "id": 28646,
+    "items": [
       {
-        "id": 44,
+        "id": 18662,
+        "price": 3690,
+        "quantity": 1,
         "color": {
-          "id": 20,
-          "title": "Red",
-          "code": "#dd0808"
-        },
-        "gallery": [
-          {
-            "file": {
-              "url": "https://vue-moire.skillbox.cc/uploads/file/3/2/4/324e1f4fb34931a1d367602a730a75b5.jpg",
-              "name": "324e1f4fb34931a1d367602a730a75b5.jpg",
-              "originalName": "Rectangle 121.jpg",
-              "extension": "jpg",
-              "size": "4.3 Кб"
+          "id": 45,
+          "color": {
+            "id": 21,
+            "title": "Blue",
+            "code": "#180ae6"
+          },
+          "gallery": [
+            {
+              "file": {
+                "url": "https://vue-moire.skillbox.cc/uploads/file/c/d/b/cdbd75ce872ca9ef1860378415f90dda.png",
+                "name": "cdbd75ce872ca9ef1860378415f90dda.png",
+                "originalName": "Rectangle 1211111.png",
+                "extension": "png",
+                "size": "110.3 Кб"
+              }
             }
-          }
-        ]
+          ]
+        },
+        "size": {
+          "id": 8,
+          "title": "1B"
+        },
+        "product": {
+          "id": 3,
+          "title": "Кружевной бюстгалтер без косточек",
+          "slug": "kruzhevnoy-byustgalter-bez-kostochek",
+          "price": 3690,
+          "colors": [
+            {
+              "id": 45,
+              "color": {
+                "id": 21,
+                "title": "Blue",
+                "code": "#180ae6"
+              },
+              "gallery": [
+                {
+                  "file": {
+                    "url": "https://vue-moire.skillbox.cc/uploads/file/c/d/b/cdbd75ce872ca9ef1860378415f90dda.png",
+                    "name": "cdbd75ce872ca9ef1860378415f90dda.png",
+                    "originalName": "Rectangle 1211111.png",
+                    "extension": "png",
+                    "size": "110.3 Кб"
+                  }
+                }
+              ]
+            },
+            {
+              "id": 76,
+              "color": {
+                "id": 20,
+                "title": "Red",
+                "code": "#dd0808"
+              },
+              "gallery": [
+                {
+                  "file": {
+                    "url": "https://vue-moire.skillbox.cc/uploads/file/0/6/4/064e02cba644eca0cdc2e844e31315cf.png",
+                    "name": "064e02cba644eca0cdc2e844e31315cf.png",
+                    "originalName": "Rectangle 1211111.png",
+                    "extension": "png",
+                    "size": "113.7 Кб"
+                  }
+                }
+              ]
+            }
+          ],
+          "seasons": [
+            {
+              "id": 3,
+              "title": "Лето",
+              "code": "summer",
+              "productsCount": 10
+            },
+            {
+              "id": 4,
+              "title": "Весна",
+              "code": "spring",
+              "productsCount": 10
+            }
+          ],
+          "materials": [
+            {
+              "id": 3,
+              "title": "Полиэстер",
+              "code": "PES",
+              "productsCount": 7
+            },
+            {
+              "id": 4,
+              "title": "Полиамид",
+              "code": "PA",
+              "productsCount": 4
+            }
+          ]
+        }
       }
     ],
-    "seasons": [
-      {
-        "id": 2,
-        "title": "Осень",
-        "code": "autumn",
-        "productsCount": 10
-      },
-      {
-        "id": 4,
-        "title": "Весна",
-        "code": "spring",
-        "productsCount": 10
-      }
-    ],
-    "materials": [
-      {
-        "id": 2,
-        "title": "Шерсть",
-        "code": "wool",
-        "productsCount": 4
-      }
-    ]
+    "user": {
+      "id": 26908,
+      "accessKey": "7fe64d48afda01235f974cb6b8cf6fcd"
+    }
   }
+
   

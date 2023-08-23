@@ -4,10 +4,17 @@
       <img :src="item.product.image" width="120" height="120" :alt="item.product.title" />
     </div>
     <h3 class="product__title">{{ item.product.title }}</h3>
-    <span class="product__code">{{ item.product.id }}</span>
+    <p class="product__info product__info--color">
+      Цвет:
+      <span>
+        <i v-bind:style = "{ 'background-color': item.color.code }"></i>
+       {{ item.color.title }}
+      </span>
+    </p>
+    <span class="product__code"> Артикул: {{ item.articul }} </span>
 
     <div class="product__counter form__counter">
-      <button type="button" aria-label="Убрать один товар" @click="minusOne(item.product.id)">
+      <button type="button" aria-label="Убрать один товар" @click="minusOne(item.articul)">
         <svg width="10" height="10" fill="currentColor">
           <use xlink:href="#icon-minus"></use>
         </svg>
@@ -15,7 +22,7 @@
 
       <input type="text" v-model.number="amount" name="count" />
 
-      <button type="button" aria-label="Добавить один товар" @click="plusOne(item.product.id)">
+      <button type="button" aria-label="Добавить один товар" @click="plusOne(item.articul)">
         <svg width="10" height="10" fill="currentColor">
           <use xlink:href="#icon-plus"></use>
         </svg>
@@ -28,7 +35,7 @@
       class="product__del button-del"
       type="button"
       aria-label="Удалить товар из корзины"
-      @click="deleteProduct(item.product.id)"
+      @click="deleteProduct(item.articul)"
     >
       <svg width="20" height="20" fill="currentColor">
         <use xlink:href="#icon-close"></use>
@@ -51,7 +58,7 @@ export default {
       },
       set(value) {
         this.$store.dispatch('updateCartProductAmount', {
-          productId: this.item.product.id,
+          productId: this.item.articul,
           amount: value,
         });
       },
@@ -59,7 +66,7 @@ export default {
   },
   methods: {
     deleteProduct(productId) {
-      this.$store.dispatch('deleteCartProduct', productId);
+      this.$store.dispatch('deleteCartProduct', { productId });
     },
     plusOne(productId) {
       this.$store.dispatch('updateCartProductAmount', {

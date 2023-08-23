@@ -41,6 +41,8 @@ export default new Vuex.Store({
         return {
           productId: item.product.id,
           amount: item.quantity,
+          color: item.color.color,
+          articul: item.id,
         };
       });
     },
@@ -53,7 +55,7 @@ export default new Vuex.Store({
           ...item,
           product: {
             ...product,
-            image: product.image.file.url,
+            image: product.colors[0].gallery[0].file.url, // colors.map((item) => item.gallery[0].file.url),
           },
         };
       });
@@ -88,13 +90,15 @@ export default new Vuex.Store({
           context.commit('syncCartProduct');
         });
     },
-    addProductToCart(context, { productId, amount }) {
+    addProductToCart(context, { productId, colorId, sizeId, amount }) {
       return new Promise((resolve) => setTimeout(resolve, 20)).then(() => {
         return axios
           .post(
             `${API_BASE_URL}/api/baskets/products`,
             {
               productId,
+              colorId,
+              sizeId,
               quantity: amount,
             },
             {
@@ -104,6 +108,7 @@ export default new Vuex.Store({
             }
           )
           .then((response) => {
+            console.log(response.data.items);
             context.commit('updateProductsData', response.data.items);
             context.commit('syncCartProduct');
           });
@@ -118,7 +123,7 @@ export default new Vuex.Store({
         .put(
           `${API_BASE_URL}/api/baskets/products`,
           {
-            productId,
+            basketItemId: productId,
             quantity: amount,
           },
           {
@@ -129,16 +134,17 @@ export default new Vuex.Store({
         )
         .then((response) => {
           context.commit('updateProductsData', response.data.items);
+          context.commit('syncCartProduct');
         })
         .catch(() => {
-          context.commit('syncCartProduct');
+          // todo
         });
     },
     deleteCartProduct(context, productId) {
       return axios
         .delete(
           `${API_BASE_URL}/api/baskets/products`,
-          { productId },
+          { basketItemId: productId },
           {
             params: {
               userAccessKey: context.state.userAccessKey,
@@ -146,10 +152,11 @@ export default new Vuex.Store({
           }
         )
         .then((response) => {
-          context.commit('deleteProductsData', response.data.items);
+          context.commit('updateProductsData', response.data.items);
+          context.commit('syncCartProduct');
         })
         .catch(() => {
-          context.commit('syncCartProduct');
+          console.log('Failed to delete')
         });
     },
   },

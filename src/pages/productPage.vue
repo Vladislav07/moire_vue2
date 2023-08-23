@@ -63,15 +63,12 @@
               <div class="item__row">
                 <fieldset class="form__block">
                   <legend class="form__legend">Цвет:</legend>
-                  <radio-button
-                    :colorsItem="product.colors"
-                    :currentColors.sync="product.colors[0]"
-                  />
+                  <radio-button :colorsItem="product.colors" :currentColors.sync="productColors" />
                 </fieldset>
                 <fieldset class="form__block">
                   <legend class="form__legend">Размер</legend>
                   <label class="form__label form__label--small form__label--select">
-                    <select class="form__select" type="text" name="category">
+                    <select class="form__select" type="text" name="category" v-model="productSize">
                       <option value="0">Все категории</option>
                       <option :value="size.id" v-for="size in product.sizes" :key="size.id">
                         {{ size.title }}
@@ -144,11 +141,11 @@ export default {
       productLoading: false,
       LoadingFailed: false,
       productAdded: false,
-      colorId: null,
-      sizeId: null,
       productAddSending: false,
       currentView: ProductContent,
       links: { 1: true },
+      productColors: null,
+      productSize: 0,
     };
   },
   computed: {
@@ -172,7 +169,12 @@ export default {
     addToCart() {
       this.productAdded = false;
       this.productAddSending = true;
-      this.addProductToCart({ productId: this.product.id, amount: this.productAmount }).then(() => {
+      this.addProductToCart({
+        productId: this.product.id,
+        colorId: this.productColors,
+        sizeId: this.productSize,
+        amount: this.productAmount,
+      }).then(() => {
         this.productAdded = true;
         this.productAddSending = false;
       });
