@@ -12,9 +12,9 @@
           <a class="breadcrumbs__link"> Оформление заказа </a>
         </li>
       </ul>
-
-      <h1 class="content__title">Корзина</h1>
-      <span class="content__info"> {{ countProducts }} товара </span>
+      <div class="content__row">
+        <h1 class="content__title">Оформление заказа</h1>
+      </div>
     </div>
 
     <section class="cart">
@@ -54,51 +54,40 @@
               :error="formError.comment"
               placeholder="Комментарий к заказу"
             />
+          </div>
+          <div class="cart__options">
+            <h3 class="cart__title">Доставка</h3>
+            <ul class="cart__options options">
+              <li class="options__item" v-for="item in  deliveriesData" :key="item.id" >
+                <label class="options__label">
+                  <input
+                    class="options__radio sr-only"
+                    type="radio"
+                    name="delivery"
+                    :value= item.id
+                    @change="change(deliveryTypeId)"
+                    v-model="deliveryTypeId"
+                  />
+                  <span class="options__value"> {{item.title}} <b>{{item.price}} ₽</b> </span>
+                </label>
+              </li>
+            </ul>
 
-            <div class="cart__options">
-              <h3 class="cart__title">Доставка</h3>
-              <ul class="cart__options options">
-                <li class="options__item">
-                  <label class="options__label">
-                    <input
-                      class="options__radio sr-only"
-                      type="radio"
-                      name="delivery"
-                      value="0"
-                      checked=""
-                    />
-                    <span class="options__value"> Самовывоз <b>бесплатно</b> </span>
-                  </label>
-                </li>
-                <li class="options__item">
-                  <label class="options__label">
-                    <input
-                      class="options__radio sr-only"
-                      type="radio"
-                      name="delivery"
-                      value="500"
-                    />
-                    <span class="options__value"> Курьером <b>500 ₽</b> </span>
-                  </label>
-                </li>
-              </ul>
-
-              <h3 class="cart__title">Оплата</h3>
-              <ul class="cart__options options">
-                <li class="options__item">
-                  <label class="options__label">
-                    <input class="options__radio sr-only" type="radio" name="pay" value="card" />
-                    <span class="options__value"> Картой при получении </span>
-                  </label>
-                </li>
-                <li class="options__item">
-                  <label class="options__label">
-                    <input class="options__radio sr-only" type="radio" name="pay" value="cash" />
-                    <span class="options__value"> Наличными при получении </span>
-                  </label>
-                </li>
-              </ul>
-            </div>
+            <h3 class="cart__title">Оплата</h3>
+            <ul class="cart__options options">
+              <li class="options__item">
+                <label class="options__label">
+                  <input class="options__radio sr-only" type="radio" name="pay" value="card" />
+                  <span class="options__value"> Картой при получении </span>
+                </label>
+              </li>
+              <li class="options__item">
+                <label class="options__label">
+                  <input class="options__radio sr-only" type="radio" name="pay" value="cash" />
+                  <span class="options__value"> Наличными при получении </span>
+                </label>
+              </li>
+            </ul>
           </div>
         </div>
 
@@ -143,6 +132,8 @@ export default {
       formError: {},
       formErrorMessage: '',
       sendOrderState: false,
+      deliveriesData: null,
+      deliveryTypeId: null,
     };
   },
   components: {
@@ -163,12 +154,38 @@ export default {
     },
   },
   methods: {
+    change(id){
+      console.log(id);
+    },
+    loadDeliveryType(){
+      axios
+        .get(`${API_BASE_URL}/api/deliveries`)
+        .then((response) => {
+          console.log(response.data);
+          this.deliveriesData = response.data;
+          this.deliveryTypeId = this.deliveriesData[0].id;
+        })
+        .catch((error) => (console.log(error.message)))
+    },
+
+    loadPaymantsType(deliveryId){
+         axios
+        .get(`${API_BASE_URL}/api/payments?deliveryTypeId=${deliveryId}`)
+        .then((response) => {
+          console.log(response.data);
+          this.deliveriesData = response.data;
+        })
+        .catch((error) => (console.log(error.message)))
+    },
+
     order() {
       this.formError = {};
       this.formErrorMessage = '';
       this.sendOrderState = true;
+      console.log(this.formData)
       clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {
+
         axios
           .post(
             API_BASE_URL + '/api/orders',
@@ -188,11 +205,14 @@ export default {
             this.formError = error.response.data.error.request || {};
             this.formErrorMessage = error.response.data.error.message;
           })
-          .finally(()=>{
+          .finally(() => {
             this.sendOrderState = false;
           });
       }, 1000);
     },
   },
+  created() {
+    this.loadDeliveryType()
+  }
 };
 </script>
