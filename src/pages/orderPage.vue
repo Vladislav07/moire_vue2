@@ -58,33 +58,35 @@
           <div class="cart__options">
             <h3 class="cart__title">Доставка</h3>
             <ul class="cart__options options">
-              <li class="options__item" v-for="item in  deliveriesData" :key="item.id" >
+              <li class="options__item" v-for="item in deliveriesData" :key="item.id">
                 <label class="options__label">
                   <input
                     class="options__radio sr-only"
                     type="radio"
                     name="delivery"
-                    :value= item.id
-                    @change="change(deliveryTypeId)"
-                    v-model="deliveryTypeId"
+                    :value="item.id"
+                    @change="change(formData.deliveryTypeId)"
+                    v-model="formData.deliveryTypeId"
                   />
-                  <span class="options__value"> {{item.title}} <b>{{item.price}} ₽</b> </span>
+                  <span class="options__value">
+                    {{ item.title }} <b>{{ item.price }} ₽</b>
+                  </span>
                 </label>
               </li>
             </ul>
 
             <h3 class="cart__title">Оплата</h3>
             <ul class="cart__options options">
-              <li class="options__item">
+              <li class="options__item" v-for="item in paymentsData" :key="item.id">
                 <label class="options__label">
-                  <input class="options__radio sr-only" type="radio" name="pay" value="card" />
-                  <span class="options__value"> Картой при получении </span>
-                </label>
-              </li>
-              <li class="options__item">
-                <label class="options__label">
-                  <input class="options__radio sr-only" type="radio" name="pay" value="cash" />
-                  <span class="options__value"> Наличными при получении </span>
+                  <input
+                    class="options__radio sr-only"
+                    type="radio"
+                    name="pay"
+                    :value="item.id"
+                    v-model="formData.paymentTypeId"
+                  />
+                  <span class="options__value"> {{ item.title }} </span>
                 </label>
               </li>
             </ul>
@@ -133,7 +135,7 @@ export default {
       formErrorMessage: '',
       sendOrderState: false,
       deliveriesData: null,
-      deliveryTypeId: null,
+      paymentsData: null,
     };
   },
   components: {
@@ -154,38 +156,43 @@ export default {
     },
   },
   methods: {
-    change(id){
-      console.log(id);
+    change(id) {
+      axios
+        .get(`${API_BASE_URL}/api/payments?deliveryTypeId=${id}`)
+        .then((response) => {
+          console.log(response.data);
+          this.paymentsData = response.data;
+        })
+        .catch((error) => console.log(error.message));
+        this.formData.paymentTypeId = this.paymentsData[0].id;
     },
-    loadDeliveryType(){
+    loadDeliveryType() {
       axios
         .get(`${API_BASE_URL}/api/deliveries`)
         .then((response) => {
           console.log(response.data);
           this.deliveriesData = response.data;
-          this.deliveryTypeId = this.deliveriesData[0].id;
-        })
-        .catch((error) => (console.log(error.message)))
+          this.formData.deliveryTypeId = this.deliveriesData[0].id;})
+        .catch((error) => console.log(error.message));
     },
 
-    loadPaymantsType(deliveryId){
-         axios
+    loadPaymantsType(deliveryId) {
+      axios
         .get(`${API_BASE_URL}/api/payments?deliveryTypeId=${deliveryId}`)
         .then((response) => {
           console.log(response.data);
           this.deliveriesData = response.data;
         })
-        .catch((error) => (console.log(error.message)))
+        .catch((error) => console.log(error.message));
     },
 
     order() {
       this.formError = {};
       this.formErrorMessage = '';
       this.sendOrderState = true;
-      console.log(this.formData)
+      console.log(this.formData);
       clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {
-
         axios
           .post(
             API_BASE_URL + '/api/orders',
@@ -212,7 +219,7 @@ export default {
     },
   },
   created() {
-    this.loadDeliveryType()
-  }
+    this.loadDeliveryType();
+  },
 };
 </script>
