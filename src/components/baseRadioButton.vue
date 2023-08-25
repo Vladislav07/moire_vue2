@@ -35,13 +35,15 @@ export default {
   },
   computed: {
     colors() {
-      console.log(this.colorsData);
       return this.colorsData ? this.colorsData : [];
     },
   },
   methods: {
     color(colorId) {
-      return this.colors.find((c) => c.id === colorId).code;
+      if (this.colorsData) {
+        return this.colors.find((c) => c.id === colorId).code;
+      }
+      return null;
     },
     loadColors() {
       axios

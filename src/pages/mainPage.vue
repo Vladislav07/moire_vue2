@@ -43,7 +43,7 @@ import axios from 'axios';
 import API_BASE_URL from '@/config';
 
 export default {
-  name: 'main',
+  name: 'mainMoire',
   data() {
     return {
       filterPriceFrom: 0,

@@ -182,15 +182,17 @@ export default {
     LoadProduct() {
       this.productLoading = true;
       this.LoadingFailed = false;
-      console.log(this.$route.params.id);
       axios
         .get(`${API_BASE_URL}/api/products/${this.$route.params.id}`)
         .then((response) => {
-          console.log(response);
           this.productData = response.data;
         })
         .catch(() => (this.LoadingFailed = true))
-        .then(() => (this.productLoading = false));
+        .then(() => {
+          this.productLoading = false;
+          this.productColors = this.productData.colors[0].color.id;
+          this.productSize = this.productData.size[0].id;
+        });
     },
     tabSwitch(e) {
       e.preventDefault();

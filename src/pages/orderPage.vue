@@ -65,7 +65,7 @@
                     type="radio"
                     name="delivery"
                     :value="item.id"
-                    @change="change(formData.deliveryTypeId)"
+                    @change="loadPaymantsType(formData.deliveryTypeId)"
                     v-model="formData.deliveryTypeId"
                   />
                   <span class="options__value">
@@ -99,7 +99,9 @@
           </ul>
 
           <div class="cart__total">
-            <p>Доставка: <b>500 ₽</b></p>
+            <p>
+              Доставка: <b>{{ deliveries.price}} ₽</b>
+            </p>
             <p>
               Итого: <b>{{ countProducts }}</b> товара на сумму
               <b>{{ totalPrice | numberFormat }} ₽</b>
@@ -136,6 +138,7 @@ export default {
       sendOrderState: false,
       deliveriesData: null,
       paymentsData: null,
+      deliveries: {},
     };
   },
   components: {
@@ -157,31 +160,30 @@ export default {
   },
   methods: {
     change(id) {
-      axios
-        .get(`${API_BASE_URL}/api/payments?deliveryTypeId=${id}`)
-        .then((response) => {
-          console.log(response.data);
-          this.paymentsData = response.data;
-        })
-        .catch((error) => console.log(error.message));
-        this.formData.paymentTypeId = this.paymentsData[0].id;
+      //this.loadPaymantsType(id);
+
+
+      //
     },
     loadDeliveryType() {
       axios
         .get(`${API_BASE_URL}/api/deliveries`)
         .then((response) => {
-          console.log(response.data);
           this.deliveriesData = response.data;
-          this.formData.deliveryTypeId = this.deliveriesData[0].id;})
-        .catch((error) => console.log(error.message));
+          this.formData.deliveryTypeId = this.deliveriesData[0].id;
+          this.loadPaymantsType(this.formData.deliveryTypeId);
+
+        })
+        .catch((error) => console.log(error.message))
+
     },
 
     loadPaymantsType(deliveryId) {
       axios
         .get(`${API_BASE_URL}/api/payments?deliveryTypeId=${deliveryId}`)
         .then((response) => {
-          console.log(response.data);
-          this.deliveriesData = response.data;
+          this.paymentsData = response.data;
+          this.deliveries = this.deliveriesData[deliveryId - 1]
         })
         .catch((error) => console.log(error.message));
     },
@@ -221,5 +223,6 @@ export default {
   created() {
     this.loadDeliveryType();
   },
+
 };
 </script>
