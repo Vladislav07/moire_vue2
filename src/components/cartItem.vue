@@ -1,14 +1,14 @@
 <template>
   <li class="cart__item product">
     <div class="product__pic">
-      <img :src="item.product.image" width="120" height="120" :alt="item.product.title" />
+      <img :src="i" width="120" height="120" :alt="item.product.title" />
     </div>
     <h3 class="product__title">{{ item.product.title }}</h3>
     <p class="product__info product__info--color">
       Цвет:
       <span>
-        <i v-bind:style = "{ 'background-color': item.color.code }"></i>
-       {{ item.color.title }}
+        <i v-bind:style="{ 'background-color': item.color.code }"></i>
+        {{ item.color.title }}
       </span>
     </p>
     <span class="product__code"> Артикул: {{ item.articul }} </span>
@@ -47,11 +47,17 @@
 import numberFormat from '@/helpers/numberFormat';
 
 export default {
+  data() {
+    return {
+      i: null,
+    };
+  },
   props: ['item'],
   filters: {
     numberFormat,
   },
   computed: {
+
     amount: {
       get() {
         return this.item.amount;
@@ -65,6 +71,11 @@ export default {
     },
   },
   methods: {
+    img() {
+      const col = this.item.color.id;
+      const colorsImg = this.item.product.colors.filter((c) => c.color.id === col);
+      this.i = colorsImg[0].gallery[0].file.url;
+    },
     deleteProduct(productId) {
       this.$store.dispatch('deleteCartProduct', { productId });
     },
@@ -82,6 +93,9 @@ export default {
         });
       }
     },
+  },
+  created() {
+    this.img();
   },
 };
 </script>

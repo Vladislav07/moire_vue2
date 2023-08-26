@@ -20,7 +20,11 @@
             <router-link class="breadcrumbs__link" to="/"> Каталог </router-link>
           </li>
           <li class="breadcrumbs__item">
-            <a class="breadcrumbs__link" href="#" @click.prevent="$router.push({ name: 'main' })">
+            <a
+              class="breadcrumbs__link"
+              href="#"
+              @click.prevent="$router.push({ name: 'mainMoire' })"
+            >
               {{ category.title }}
             </a>
           </li>
@@ -33,11 +37,11 @@
       <section class="item">
         <div class="item__pics pics">
           <div class="pics__wrapper">
-            <img width="570" height="570" :src="product.image[0]" :alt="product.title" />
+            <img width="570" height="570" :src="product.img[productColors]" :alt="product.title" />
           </div>
           <ul class="pics__list">
             <li class="pics__item" v-for="img in product.image" :key="img.id">
-              <a href="" class="pics__link">
+              <a href="#" class="pics__link">
                 <img
                   width="98"
                   height="98"
@@ -150,6 +154,10 @@ export default {
   },
   computed: {
     product() {
+      const img = {};
+      this.productData.colors.map((c) => {
+        return (img[c.color.id] = c.gallery[0].file.url);
+      });
       return {
         id: this.productData.id,
         title: this.productData.title,
@@ -157,6 +165,7 @@ export default {
         price: this.productData.price,
         colors: this.productData.colors.map((p) => p.color.id),
         sizes: this.productData.sizes,
+        img,
       };
     },
     category() {
@@ -191,7 +200,7 @@ export default {
         .then(() => {
           this.productLoading = false;
           this.productColors = this.productData.colors[0].color.id;
-          this.productSize = this.productData.size[0].id;
+          this.productSize = this.productData.sizes[0].id;
         });
     },
     tabSwitch(e) {

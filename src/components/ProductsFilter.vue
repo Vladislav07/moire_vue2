@@ -44,10 +44,12 @@
                 class="check-list__check sr-only"
                 type="checkbox"
                 name="material"
-                :value="material.title"
-                v-model.number="currentMaterialId"
+                :value="material.id"
+                v-model.number="materialsArray"
               />
-              <span class="check-list__desc"> {{ material.title }} </span>
+              <span class="check-list__desc"> {{ material.title }}
+              <span>({{ material.productsCount }})</span>
+              </span>
             </label>
           </li>
         </ul>
@@ -62,12 +64,12 @@
                 class="check-list__check sr-only"
                 type="checkbox"
                 name="collection"
-                :value="season.code"
-                checked=""
+                :value="season.id"
+                v-model.number="seasonsArray"
               />
               <span class="check-list__desc">
                 {{ season.title }}
-                <span>(313)</span>
+                <span>({{ season.productsCount}})</span>
               </span>
             </label>
           </li>
@@ -94,14 +96,15 @@ export default {
       currentPriceTo: 0,
       currentCategoriesId: 0,
       currentColorId: 0,
-      currentMaterialId: 0,
+      materialsArray: [],
+      seasonsArray: [],
       categoryData: null,
       colorData: null,
       materialsData: null,
       seasonsData: null,
     };
   },
-  props: ['priceFrom', 'priceTo', 'categoriaId', 'colorId'],
+  props: ['priceFrom', 'priceTo', 'categoriaId', 'colorId', 'materialIds', 'seasonIds'],
   computed: {
     categories() {
       return this.categoryData ? this.categoryData.items : [];
@@ -129,6 +132,12 @@ export default {
     colorId(value) {
       this.currentColorId = value;
     },
+    materialIds(value) {
+      this.materialsArray = value;
+    },
+    seasonIds(value) {
+      this.seasonsArray = value;
+    },
   },
   methods: {
     submit() {
@@ -136,12 +145,16 @@ export default {
       this.$emit('update:priceTo', this.currentPriceTo);
       this.$emit('update:categoriaId', this.currentCategoriesId);
       this.$emit('update:colorId', this.currentColorId);
+      this.$emit('update:materialIds', this.materialsArray);
+      this.$emit('update:seasonIds', this.seasonsArray);
     },
     reset() {
       this.$emit('update:priceFrom', 0);
       this.$emit('update:priceTo', 0);
       this.$emit('update:categoriaId', 0);
       this.$emit('update:colorId', 0);
+      this.$emit('update:materialIds', []);
+      this.$emit('update:seasonIds', []);
     },
     loadCategory() {
       axios

@@ -25,32 +25,35 @@
             <base-form-text
               v-model="formData.name"
               title="ФИО"
+              type="text"
               :error="formError.name"
               placeholder="Введите ваше полное имя"
             />
             <base-form-text
               v-model="formData.address"
               title="Адрес доставки"
+              type="text"
               :error="formError.address"
               placeholder="Введите ваш адрес"
             />
             <base-form-text
               v-model="formData.phone"
               title="Телефон"
-              :type="tel"
+              type="tel"
               :error="formError.phone"
               placeholder="Введите ваш телефон"
             />
             <base-form-text
               v-model="formData.email"
               title="Электронный адрес"
-              :type="email"
+              type="email"
               :error="formError.email"
               placeholder="Введи ваш Email"
             />
             <base-form-area
               v-model="formData.comment"
               title="Комментарий к заказу"
+              type="text"
               :error="formError.comment"
               placeholder="Комментарий к заказу"
             />
@@ -71,6 +74,7 @@
                   <span class="options__value">
                     {{ item.title }} <b>{{ item.price }} ₽</b>
                   </span>
+                  <span class="form__error" v-show="error">{{ error }}</span>
                 </label>
               </li>
             </ul>
@@ -87,6 +91,9 @@
                     v-model="formData.paymentTypeId"
                   />
                   <span class="options__value"> {{ item.title }} </span>
+                  <span class="form__error" v-show="formError.paymentTypeId">{{
+                    formError.paymentTypeId
+                  }}</span>
                 </label>
               </li>
             </ul>
@@ -100,7 +107,7 @@
 
           <div class="cart__total">
             <p>
-              Доставка: <b>{{ deliveries.price}} ₽</b>
+              Доставка: <b>{{ deliveries.price }} ₽</b>
             </p>
             <p>
               Итого: <b>{{ countProducts }}</b> товара на сумму
@@ -139,6 +146,7 @@ export default {
       deliveriesData: null,
       paymentsData: null,
       deliveries: {},
+      error: null,
     };
   },
   components: {
@@ -161,8 +169,6 @@ export default {
   methods: {
     change(id) {
       //this.loadPaymantsType(id);
-
-
       //
     },
     loadDeliveryType() {
@@ -172,10 +178,8 @@ export default {
           this.deliveriesData = response.data;
           this.formData.deliveryTypeId = this.deliveriesData[0].id;
           this.loadPaymantsType(this.formData.deliveryTypeId);
-
         })
-        .catch((error) => console.log(error.message))
-
+        .catch((error) => console.log(error.message));
     },
 
     loadPaymantsType(deliveryId) {
@@ -183,7 +187,8 @@ export default {
         .get(`${API_BASE_URL}/api/payments?deliveryTypeId=${deliveryId}`)
         .then((response) => {
           this.paymentsData = response.data;
-          this.deliveries = this.deliveriesData[deliveryId - 1]
+          this.deliveries = this.deliveriesData[deliveryId - 1];
+          //this.formData.paymentTypeId = this.paymentsData[1].id
         })
         .catch((error) => console.log(error.message));
     },
@@ -223,6 +228,10 @@ export default {
   created() {
     this.loadDeliveryType();
   },
-
 };
 </script>
+<style scoped>
+  .options__label{
+    position: relative;
+  }
+</style>

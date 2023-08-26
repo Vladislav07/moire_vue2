@@ -3,7 +3,7 @@
     ><input
       v-model="dataValue"
       class="form__input"
-      :type="text"
+      :type="type"
       name="name"
       :placeholder="placeholder"
   /></base-form-field>
@@ -12,11 +12,7 @@
 import formFieldMixin from '../mixins/formFieldMixin';
 
 export default {
-  props: {
-    type: {
-      default: 'text',
-    },
-  },
+  props: ['type'],
   mixins: [formFieldMixin],
 };
 </script>

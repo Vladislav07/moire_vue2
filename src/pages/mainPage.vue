@@ -13,6 +13,8 @@
         :priceTo.sync="filterPriceTo"
         :categoriaId.sync="filterCatId"
         :colorId.sync="filterColorId"
+        :materialIds.sync="filterMaterialIds"
+        :seasonIds.sync="filterSeasonIds"
       ></product-filter>
 
       <section class="catalog">
@@ -35,7 +37,7 @@
 
 <script>
 /* eslint-disable implicit-arrow-linebreak, comma-dangle,
-function-paren-newline, no-return-assign, arrow-body-style */
+function-paren-newline, no-return-assign, arrow-body-style, prefer-arrow-callback */
 import ProductList from '@/components/ProductList.vue';
 import BasePagination from '@/components/basePagination.vue';
 import ProductFilter from '@/components/ProductsFilter.vue';
@@ -49,7 +51,9 @@ export default {
       filterPriceFrom: 0,
       filterPriceTo: 0,
       filterCatId: 0,
-      filterColorId: 0,
+      filterColorId: [],
+      filterMaterialIds: [],
+      filterSeasonIds: [],
       productsPerPage: 12,
       page: 1,
       productsData: null,
@@ -59,13 +63,17 @@ export default {
   },
   computed: {
     products() {
-      return this.productsData ? this.productsData.items.map((p) => {
-        return {
-          ...p,
-          image: p.colors[0].gallery[0].file.url,
-          colors: p.colors.map((i) => i.color.id),
-        };
-      })
+      return this.productsData
+        ? this.productsData.items.map((p) => {
+          console.log(p);
+          const img = {};
+          p.colors.map((c) => { return img[c.color.id] = c.gallery[0].file.url; });
+          return {
+            ...p,
+            img,
+            colors: p.colors.map((i) => i.color.id),
+          };
+        })
         : [];
     },
     countProducts() {
@@ -88,6 +96,12 @@ export default {
     filterColorId() {
       this.loadProducts();
     },
+    filterMaterialIds() {
+      this.loadProducts();
+    },
+    filterSeasonIds() {
+      this.loadProducts();
+    },
   },
   components: {
     'product-list': ProductList,
@@ -108,7 +122,9 @@ export default {
               categoryId: this.filterCatId,
               minPrice: this.filterPriceFrom,
               maxPrice: this.filterPriceTo,
-              colorId: this.filterColorId,
+              colorIds: this.filterColorId,
+              seasonIds: this.filterSeasonIds,
+              materialIds: this.filterMaterialIds,
             },
           })
           .then((response) => {
