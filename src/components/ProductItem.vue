@@ -20,11 +20,11 @@ import gotoPage from '@/helpers/gotoPage';
 import RadioButton from './baseRadioButton.vue';
 
 export default {
-  // data() {
-  //   return {
-  //     color: this.product.colors[0],
-  //   };
-  // },
+  data() {
+    return {
+      color: this.product.colors[0],
+    };
+  },
   props: ['product'],
   components: {
     'radio-button': RadioButton,
@@ -38,9 +38,6 @@ export default {
       const result = [];
       this.product.colors.map((item) => (result.push(item)));
       return result;
-    },
-    color() {
-      return this.product.colors[0];
     },
   },
 };

@@ -46,6 +46,7 @@ import API_BASE_URL from '@/config';
 
 export default {
   name: 'mainMoire',
+  props: ['id'],
   data() {
     return {
       filterPriceFrom: 0,
@@ -65,13 +66,21 @@ export default {
     products() {
       return this.productsData
         ? this.productsData.items.map((p) => {
-          console.log(p);
           const img = {};
-          p.colors.map((c) => { return img[c.color.id] = c.gallery[0].file.url; });
+          try {
+            p.colors.forEach((c) => {
+              const gal = c.gallery;
+              if (gal) {
+                img[c.color.id] = gal[0].file.url;
+              }
+            });
+          } catch (error) {
+            console.log(error);
+          }
           return {
             ...p,
             img,
-            colors: p.colors.map((i) => i.color.id),
+            colors: p.colors.filter((g) => g.galery !== null).map((i) => i.color.id),
           };
         })
         : [];
@@ -109,6 +118,9 @@ export default {
     'product-filter': ProductFilter,
   },
   methods: {
+    LoadParametr() {
+      this.filterCatId = this.id;
+    },
     loadProducts() {
       this.productsLoading = true;
       this.LoadingFailed = false;
@@ -136,6 +148,7 @@ export default {
     },
   },
   created() {
+    this.LoadParametr();
     this.loadProducts();
   },
 };

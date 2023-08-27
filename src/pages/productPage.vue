@@ -17,16 +17,20 @@
       <div class="content__top">
         <ul class="breadcrumbs">
           <li class="breadcrumbs__item">
-            <router-link class="breadcrumbs__link" to="/"> Каталог </router-link>
+            <router-link
+              class="breadcrumbs__link"
+              to='/'
+            >
+              Каталог
+            </router-link>
           </li>
           <li class="breadcrumbs__item">
-            <a
+            <router-link
               class="breadcrumbs__link"
-              href="#"
-              @click.prevent="$router.push({ name: 'mainMoire' })"
+              :to="{ name: 'category', params: { id: category.id } }"
             >
               {{ category.title }}
-            </a>
+            </router-link>
           </li>
           <li class="breadcrumbs__item">
             <a class="breadcrumbs__link"> {{ product.title }} </a>

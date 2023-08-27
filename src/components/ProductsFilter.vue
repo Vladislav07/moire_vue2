@@ -155,6 +155,7 @@ export default {
       this.$emit('update:colorId', 0);
       this.$emit('update:materialIds', []);
       this.$emit('update:seasonIds', []);
+      this.$route.navigate('/');
     },
     loadCategory() {
       axios
