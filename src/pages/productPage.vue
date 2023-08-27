@@ -17,12 +17,7 @@
       <div class="content__top">
         <ul class="breadcrumbs">
           <li class="breadcrumbs__item">
-            <router-link
-              class="breadcrumbs__link"
-              to='/'
-            >
-              Каталог
-            </router-link>
+            <router-link class="breadcrumbs__link" to="/"> Каталог </router-link>
           </li>
           <li class="breadcrumbs__item">
             <router-link
@@ -44,15 +39,14 @@
             <img width="570" height="570" :src="product.img[productColors]" :alt="product.title" />
           </div>
           <ul class="pics__list">
-            <li class="pics__item" v-for="img in product.image" :key="img.id">
+            <li
+              class="pics__item"
+              v-for="imgItem in product.img"
+              :key="imgItem"
+              @click="changeImg(imgItem)"
+            >
               <a href="#" class="pics__link">
-                <img
-                  width="98"
-                  height="98"
-                  :src="img"
-                  srcset="img/product-square-2@2x.jpg 2x"
-                  alt="Название товара"
-                />
+                <img width="98" height="98" :src="imgItem" alt="Название товара" />
               </a>
             </li>
           </ul>
@@ -217,6 +211,15 @@ export default {
       }
       this.links = {};
       this.links[n] = true;
+    },
+    changeImg(id) {
+      const o = Object.entries(this.product.img);
+      o.forEach((i) => {
+        if (i[1] === id) {
+          const temp = i[0];
+          this.productColors = temp;
+        }
+      });
     },
   },
   filters: { numberFormat },

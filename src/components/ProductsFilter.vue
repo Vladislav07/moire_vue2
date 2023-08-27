@@ -147,6 +147,7 @@ export default {
       this.$emit('update:colorId', this.currentColorId);
       this.$emit('update:materialIds', this.materialsArray);
       this.$emit('update:seasonIds', this.seasonsArray);
+      this.$router.push('/');
     },
     reset() {
       this.$emit('update:priceFrom', 0);
@@ -155,7 +156,7 @@ export default {
       this.$emit('update:colorId', 0);
       this.$emit('update:materialIds', []);
       this.$emit('update:seasonIds', []);
-      this.$route.navigate('/');
+      this.$router.push('/');
     },
     loadCategory() {
       axios

@@ -108,7 +108,6 @@ export default new Vuex.Store({
             }
           )
           .then((response) => {
-            console.log(response.data.items);
             context.commit('updateProductsData', response.data.items);
             context.commit('syncCartProduct');
           });
@@ -140,23 +139,23 @@ export default new Vuex.Store({
           // todo
         });
     },
-    deleteCartProduct(context, productId) {
+    deleteCartProduct(context, basketItemId) {
       return axios
         .delete(
           `${API_BASE_URL}/api/baskets/products`,
-          { basketItemId: productId },
           {
             params: {
               userAccessKey: context.state.userAccessKey,
             },
-          }
+          },
+          { basketItemId: basketItemId }
         )
         .then((response) => {
-          context.commit('updateProductsData', response.data.items);
+          context.commit('deleteCartProduct', response.data.items);
           context.commit('syncCartProduct');
         })
-        .catch(() => {
-          console.log('Failed to delete')
+        .catch((error) => {
+          console.log(error);
         });
     },
   },
