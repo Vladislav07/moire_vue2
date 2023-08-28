@@ -11,7 +11,6 @@ Vue.use(VueRouter);
 
 const routes = [
   { name: 'mainMoire', component: MainPage, path: '/' },
-  { name: 'mainMoire', component: MainPage, path: '/index.html' },
   {
     name: 'category', component: MainPage, path: '/category/:id', props: true,
   },
@@ -22,6 +21,6 @@ const routes = [
   { name: 'notFound', component: NotFoundPage, path: '*' },
 ];
 
-const router = new VueRouter({ mode: 'history', routes });
+const router = new VueRouter({ routes });
 
 export default router;

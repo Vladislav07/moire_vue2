@@ -152,7 +152,7 @@ export default new Vuex.Store({
           context.commit('syncCartProduct');
         })
         .catch((error) => {
-          console.log(error);
+
         });
     },
   },
