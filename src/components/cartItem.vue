@@ -77,7 +77,7 @@ export default {
       this.i = colorsImg[0].gallery[0].file.url;
     },
     deleteProduct(productId) {
-      this.$store.dispatch('deleteCartProduct', { productId });
+      this.$store.dispatch('deleteCartProduct', productId);
     },
     plusOne(productId) {
       this.$store.dispatch('updateCartProductAmount', {

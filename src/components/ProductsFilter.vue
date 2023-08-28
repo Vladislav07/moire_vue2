@@ -34,6 +34,24 @@
           </select>
         </label>
       </fieldset>
+      <fieldset class="form__block">
+        <legend class="form__legend">Цвет</legend>
+        <ul class="colors">
+          <li class="colors__item" v-for="color in colors" :key="color.id">
+            <label class="colors__label">
+              <input
+                class="check-list__check sr-only"
+                type="checkbox"
+                name="color"
+                :value="color.id"
+                v-model.number="currentColorId"
+                @change="change"
+              />
+              <span class="colors__value" :style="{ 'background-color': color.code }"> </span>
+            </label>
+          </li>
+        </ul>
+      </fieldset>
 
       <fieldset class="form__block">
         <legend class="form__legend">Материал</legend>
@@ -47,8 +65,9 @@
                 :value="material.id"
                 v-model.number="materialsArray"
               />
-              <span class="check-list__desc"> {{ material.title }}
-              <span>({{ material.productsCount }})</span>
+              <span class="check-list__desc">
+                {{ material.title }}
+                <span>({{ material.productsCount }})</span>
               </span>
             </label>
           </li>
@@ -69,7 +88,7 @@
               />
               <span class="check-list__desc">
                 {{ season.title }}
-                <span>({{ season.productsCount}})</span>
+                <span>({{ season.productsCount }})</span>
               </span>
             </label>
           </li>
@@ -95,7 +114,7 @@ export default {
       currentPriceFrom: 0,
       currentPriceTo: 0,
       currentCategoriesId: 0,
-      currentColorId: 0,
+      currentColorId: [],
       materialsArray: [],
       seasonsArray: [],
       categoryData: null,
@@ -140,6 +159,8 @@ export default {
     },
   },
   methods: {
+    change() {
+    },
     submit() {
       this.$emit('update:priceFrom', this.currentPriceFrom);
       this.$emit('update:priceTo', this.currentPriceTo);
@@ -147,7 +168,7 @@ export default {
       this.$emit('update:colorId', this.currentColorId);
       this.$emit('update:materialIds', this.materialsArray);
       this.$emit('update:seasonIds', this.seasonsArray);
-      this.$router.push('/');
+      // this.$router.push('/');
     },
     reset() {
       this.$emit('update:priceFrom', 0);
@@ -156,7 +177,7 @@ export default {
       this.$emit('update:colorId', 0);
       this.$emit('update:materialIds', []);
       this.$emit('update:seasonIds', []);
-      this.$router.push('/');
+      // this.$router.push('/');
     },
     loadCategory() {
       axios

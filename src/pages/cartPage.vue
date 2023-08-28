@@ -6,7 +6,7 @@
           <a class="breadcrumbs__link" href="index.html"> Каталог </a>
         </li>
         <li class="breadcrumbs__item">
-          <a class="breadcrumbs__link"> Корзина </a>
+          <a href="#" class="breadcrumbs__link">Корзина</a>
         </li>
       </ul>
       <div class="content__row">

@@ -8,6 +8,6 @@ git init
 git add .
 git commit -m 'deploy_auto'
 
-git push -f https://github.com/Vladislav07/appstore.git master:gh-pages
+git push -f https://github.com/Vladislav07/vue-moire.git master:gh-pages
 
 cd -

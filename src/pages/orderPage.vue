@@ -6,7 +6,12 @@
           <a class="breadcrumbs__link" href="index.html"> Каталог </a>
         </li>
         <li class="breadcrumbs__item">
-          <a class="breadcrumbs__link" href="cart.html"> Корзина </a>
+           <router-link
+              class="breadcrumbs__link"
+              to="/cart"
+            >
+              Корзина
+            </router-link>
         </li>
         <li class="breadcrumbs__item">
           <a class="breadcrumbs__link"> Оформление заказа </a>
