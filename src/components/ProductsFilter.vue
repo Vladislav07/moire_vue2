@@ -47,7 +47,11 @@
                 v-model.number="currentColorId"
                 @change="change"
               />
-              <span class="colors__value" :style="{ 'background-color': color.code }"> </span>
+              <span
+                class="colors__value"
+                :style="{ 'background-color': color.code }"
+              >
+              </span>
             </label>
           </li>
         </ul>
@@ -160,6 +164,9 @@ export default {
   },
   methods: {
     change() {
+      // const elem = e.target.parentNode.children[1];
+      // const elementStyle = getComputedStyle(elem, '::before');
+
     },
     submit() {
       this.$emit('update:priceFrom', this.currentPriceFrom);
@@ -206,3 +213,11 @@ export default {
   },
 };
 </script>
+<style scoped>
+.colors__value {
+  position: relative;
+}
+.colors__value::before:focus  {
+  border-color: red;
+}
+</style>
